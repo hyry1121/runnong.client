@@ -1,5 +1,5 @@
 <template>
-	<swiper class="aaa" :options="options">
+	<swiper :options="options">
 		<swiper-slide v-for="slider in sliders" v-if="slider.show">
 			<a class="slider" :href="slider.link">
 				<img :src="slider.img">
