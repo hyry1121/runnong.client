@@ -1,7 +1,7 @@
 <template>
 	<div style="margin-bottom: 100px;">
 		<div class="floor-header wrap">
-			<h1 class="fl">润农品质店</h1>
+			<h1 class="fl">身边社群</h1>
 			<span class="shop-district fl"
 						v-show="cityForShops.name != '全部'">
 				( {{ cityForShops.name }} - {{ cityForShops.district }} )
