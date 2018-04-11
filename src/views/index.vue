@@ -10,7 +10,15 @@
 			</a>
 		</div>
 		<Cities class="floor" v-on:changeCityForShops="setCityForShops"></Cities>
-		<Shops class="floor" :city-for-shops="cityForShops"></Shops>
+		<Search
+			v-on:doSearch="searchShops"
+			v-on:clearSearch="resetShops">
+		</Search>
+		<Shops
+			class="floor"
+			:city-for-shops="cityForShops"
+			:pull-words-for-shops="pullWordsForShops">
+		</Shops>
 	</div>
 </template>
 
@@ -18,10 +26,11 @@
 	import Sliders from './../components/Sliders'
 	import Cities from './../components/Cities'
 	import Shops from './../components/Shops'
+	import Search from './../components/Search'
 	import { createRequest } from './../utils'
 
 	export default {
-		components: { Sliders, Cities, Shops },
+		components: { Sliders, Cities, Shops, Search },
 
 		data() {
 			return {
@@ -29,7 +38,8 @@
 					name: '全部',
 					district: '全部'
 				},
-				groupAd: {}
+				groupAd: {},
+				pullWordsForShops: null
 			}
 		},
 
@@ -46,6 +56,13 @@
 		methods: {
 			setCityForShops( cityForShops ) {
 				this.cityForShops = cityForShops
+			},
+			searchShops( pullWords ) {
+				// pullWords => Array or singleString
+				this.pullWordsForShops = pullWords
+			},
+			resetShops() {
+				this.pullWordsForShops = null
 			}
 		}
 	}

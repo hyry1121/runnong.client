@@ -1,7 +1,7 @@
 <template>
 	<div style="margin-bottom: 100px;">
 		<div class="floor-header wrap">
-			<h1 class="fl">身边社群</h1>
+			<h1 class="fl">好邻居社群</h1>
 			<span class="shop-district fl"
 						v-show="cityForShops.name != '全部'">
 				( {{ cityForShops.name }} - {{ cityForShops.district }} )
@@ -59,7 +59,7 @@
 	import { createRequest } from './../utils'
 
 	export default {
-		props: [ 'cityForShops' ],
+		props: [ 'cityForShops', 'pullWordsForShops' ],
 
 		data() {
 			return {
@@ -67,10 +67,34 @@
 			}
 		},
 
+		watch: {
+			'pullWordsForShops': function( words ) {
+				this.shops = window._shops
+
+				if( typeof words == 'string' ) {
+					this.shops = this.shops.filter( shop => shop.name.indexOf(words) !== -1 )
+					return
+				}
+
+				if( Array.isArray(words) ) {
+					this.shops = this.shops.filter( shop => {
+						for( let i = 0, w; w = words[i++]; ) {
+							if( shop.name.indexOf(w) !== -1 ) {
+								return true
+							}
+						}
+						return false
+					})
+				}
+			}
+		},
+
 		created() {
 			createRequest( 'shop' )
 				.then( shops => {
 					this.shops = shops.sort( (a, b) => a.rank - b.rank )
+					// 缓存shops 以防筛选之后消失
+					window._shops = this.shops
 				})
 				.catch( err => {
 					alert( '无法连接服务器' )
