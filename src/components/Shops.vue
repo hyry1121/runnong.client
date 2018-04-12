@@ -69,15 +69,17 @@
 
 		watch: {
 			'pullWordsForShops': function( words ) {
-				this.shops = window._shops
+				if( words === null ) {
+					this.shops = window._shops
+				}
 
 				if( typeof words == 'string' ) {
-					this.shops = this.shops.filter( shop => shop.name.indexOf(words) !== -1 )
+					this.shops = window._shops.filter( shop => shop.name.indexOf(words) !== -1 )
 					return
 				}
 
 				if( Array.isArray(words) ) {
-					this.shops = this.shops.filter( shop => {
+					this.shops = window._shops.filter( shop => {
 						for( let i = 0, w; w = words[i++]; ) {
 							if( shop.name.indexOf(w) !== -1 ) {
 								return true
